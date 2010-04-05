@@ -25,6 +25,8 @@
 #include "publisher.h"
 #include "subscriber.h"
 #include "Thread.h"
+#include <google/protobuf/message.h>
+class ChannelCommand;
 
 class Channel : public Thread, public Publisher, public Subscriber
 {
@@ -36,8 +38,8 @@ public:
 	void process_messages();
 	void run();
 private:
-	vector<std::string>* messages;
-	vector<std::string>* reachable_peers;
+	std::vector<std::string>* messages;
+	std::vector<std::string>* reachable_peers;
 };
 
 #endif // CHANNEL_H

@@ -50,7 +50,10 @@ set(NARUKOM_NETWORK_SRCS
 	${NARUKOM_DIR}/network/network_message.h
 	${NARUKOM_DIR}/network/network_message.cpp
 	${NARUKOM_DIR}/network/network_message_buffer.h
-	${NARUKOM_DIR}/network/network_message_buffer.cpp	
+	${NARUKOM_DIR}/network/network_message_buffer.cpp
+        ${NARUKOM_DIR}/network/network_packet.pb.h
+        ${NARUKOM_DIR}/network/network_packet.pb.cc
+      
 )
 
 SET(NARUKOM_NETWORK_INCLUDE_DIR ${NARUKOM_DIR}/network/)
