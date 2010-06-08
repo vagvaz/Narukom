@@ -1,0 +1,1 @@
+set( ProbtobufLibrary ${ConfigDir}/${TargetPlatform}/lib/libprotobuf.a)
