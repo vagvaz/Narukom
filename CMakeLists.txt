@@ -21,6 +21,9 @@ if ( "x${TargetPlatform}x" STREQUAL "xx")
 endif( "x${TargetPlatform}x" STREQUAL "xx")
 
 
+if ( "x${TargetPlatform}x" STREQUAL "xrobotx")
+  set(RobotPlatform "nao" CACHE PATH "")
+endif( "x${TargetPlatform}x" STREQUAL "xrobotx")
 
 #The .cmake where all the narukom sources files are defined
 include(${ConfigDir}/narukom_sources.cmake)
@@ -33,6 +36,7 @@ include(${ConfigDir}/${TargetPlatform}/${TargetPlatform}-config.cmake)
 
 add_definitions(${ExternalDefinitions}
 	  "-Wall"
+          #"-Wextra"
 )
 
 if( "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
@@ -44,12 +48,12 @@ include_directories( ${NarukomDir}
 		     ${BoostIncludeDir}
 		     )
 add_subdirectory( narukom_messages)		     
-add_library(narukom  SHARED narukom.cpp ${NARUKOM_SYSTEM_SRCS}  ${NARUKOM_PUB_SUB_SRCS}  ${NARUKOM_NETWORK_SRCS}  ${NARUKOM_MESSAGES_SRCS}  )
+add_library(narukom SHARED narukom.cpp ${NARUKOM_SYSTEM_SRCS}  ${NARUKOM_PUB_SUB_SRCS}  ${NARUKOM_NETWORK_SRCS}  ${NARUKOM_MESSAGES_SRCS}  )
 
 
 if(${TargetPlatform} STREQUAL "robot")
- # use_lib(narukom ALCOMMON ALMATH LIBCORE TOOLS ALVALUE BOOST TINYXML)
-  target_link_libraries(narukom ${ProtobufLibrary} narukom_messages boost_system-mt boost_date_time-mt boost_thread-mt tinyxml )# ${BoostDateTimeLibrary} ${BoostThreadLibrary} ${BoostSystemLibrary})
+  use_lib(narukom ALCOMMON ALMATH LIBCORE TOOLS ALVALUE BOOST TINYXML)
+  target_link_libraries(narukom ${ProtobufLibrary} narukom_messages)# boost_system-mt boost_date_time-mt boost_thread-mt /home/vagvaz/Projects/Narukom/cmake/linux/lib/libtinyxml.a )# ${BoostDateTimeLibrary} ${BoostThreadLibrary} ${BoostSystemLibrary})
 else (${TargetPlatform} STREQUAL "robot")
    # message("!@#!@#!@#!#!${ProtobufLibrary} ${BoostDateTimeLibrary} ${BoostThreadLibrary} ${BoostSystemLibrary} ${TinyxmlLibrary}")
     target_link_libraries(narukom ${ProtobufLibrary} narukom_messages ${BoostDateTimeLibrary} ${BoostThreadLibrary} ${BoostSystemLibrary} ${TinyxmlLibrary})

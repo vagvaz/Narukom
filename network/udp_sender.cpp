@@ -119,15 +119,24 @@ unsigned int UdpSender::sync_write(const char* msg, unsigned int size, boost::as
 		result = socket_->send_to(boost::asio::buffer(msg,size),endpoint_);
 	else
 		result = socket_->send_to(boost::asio::buffer(msg,size),*endpoint);
+
 	return result;
 }
 unsigned int UdpSender::sync_write(const std::string& msg, boost::asio::ip::udp::endpoint*  endpoint)
 {
 	int result = 0;
+	cout << "I send to " << msg.size() << endl;
 if(endpoint == 0)
-		result = socket_->send_to(boost::asio::buffer(msg),endpoint_);
+{
+	result = socket_->send_to(boost::asio::buffer(msg),endpoint_);
+	
+}
 	else
+	{
 		result = socket_->send_to(boost::asio::buffer(msg),*endpoint);
+	
+	}
+	
 	return result;
 }
 void UdpSender::handle_send_timeout(const boost::system::error_code& error, unsigned int num_of_message, unsigned int num_of_piece, const boost::asio::ip::udp::endpoint& endpoint)

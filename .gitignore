@@ -2,3 +2,7 @@ build/
 *.kdev4
 external/CMakeLists.txt
 *~
+*.o
+*.lo
+*.a
+*.la

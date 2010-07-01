@@ -21,17 +21,17 @@
 #ifndef PINGER_H
 #define PINGER_H
 
-#include "system/thread.h"
-#include "pub_sub/subscriber.h"
-#include "pub_sub/publisher.h"
+#include "../system/thread.h"
+#include "../pub_sub/subscriber.h"
+#include "../pub_sub/publisher.h"
 #include "pingpong.pb.h"
-
+#include "../pub_sub/blackboard.h"
 class Pinger : public Thread, public Subscriber, public Publisher
 {
   public:
     Pinger ( bool running = false ) : Thread(running),Subscriber("pinger"),Publisher("pinger")
-    {
-      
+    {	
+      blk = new Blackboard("blk");
     }
     void start_service();
     PingMessage* play(PongMessage*);
@@ -39,6 +39,8 @@ class Pinger : public Thread, public Subscriber, public Publisher
     virtual int Execute();
     virtual void process_messages();
     virtual void publish ( google::protobuf::Message* msg );
+	private:
+		Blackboard* blk;
 };
 
 #endif // PINGER_H

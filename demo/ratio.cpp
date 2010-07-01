@@ -28,9 +28,9 @@ int Ratio::Execute()
     //SyncMessage* tmp = (SyncMessage*)b.in_nb("SyncMessage","Slow","localhost");
     boost::posix_time::ptime time_of_query;
     cout << "in" << endl;
-    SyncMessage* tmp = b.in<SyncMessage>("SyncMessage","Slow","localhost",false,&time_of_query);
+    SyncMessage* tmp = b.in_msg<SyncMessage>("SyncMessage","localhost",&time_of_query);
     cout << "read" << endl;
-    SyncMessage tmp2 = b.read<SyncMessage>("SyncMessage","Fast","localhost",0,&time_of_query);
+    SyncMessage tmp2 = b.read_msg<SyncMessage>("SyncMessage","localhost",0,&time_of_query);
     cout << "fppppppp" << endl;
  			
     cout << ""  <<  tmp2.counter() <<"," << tmp->counter() << "," << tmp2.counter() / (float)tmp ->counter() << endl;

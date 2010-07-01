@@ -163,6 +163,16 @@ class Envelope : public ::google::protobuf::Message {
   inline bool serialized() const;
   inline void set_serialized(bool value);
   
+  // optional string sec_publisher = 9 [default = ""];
+  inline bool has_sec_publisher() const;
+  inline void clear_sec_publisher();
+  static const int kSecPublisherFieldNumber = 9;
+  inline const ::std::string& sec_publisher() const;
+  inline void set_sec_publisher(const ::std::string& value);
+  inline void set_sec_publisher(const char* value);
+  inline void set_sec_publisher(const char* value, size_t size);
+  inline ::std::string* mutable_sec_publisher();
+  
   // @@protoc_insertion_point(class_scope:Envelope)
  private:
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
@@ -182,11 +192,13 @@ class Envelope : public ::google::protobuf::Message {
   ::std::string* timestamp_;
   static const ::std::string _default_timestamp_;
   bool serialized_;
+  ::std::string* sec_publisher_;
+  static const ::std::string _default_sec_publisher_;
   friend void  protobuf_AddDesc_Envelope_2eproto();
   friend void protobuf_AssignDesc_Envelope_2eproto();
   friend void protobuf_ShutdownFile_Envelope_2eproto();
   
-  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
   
   // WHY DOES & HAVE LOWER PRECEDENCE THAN != !?
   inline bool _has_bit(int index) const {
@@ -592,6 +604,48 @@ inline bool Envelope::serialized() const {
 inline void Envelope::set_serialized(bool value) {
   _set_bit(7);
   serialized_ = value;
+}
+
+// optional string sec_publisher = 9 [default = ""];
+inline bool Envelope::has_sec_publisher() const {
+  return _has_bit(8);
+}
+inline void Envelope::clear_sec_publisher() {
+  if (sec_publisher_ != &_default_sec_publisher_) {
+    sec_publisher_->clear();
+  }
+  _clear_bit(8);
+}
+inline const ::std::string& Envelope::sec_publisher() const {
+  return *sec_publisher_;
+}
+inline void Envelope::set_sec_publisher(const ::std::string& value) {
+  _set_bit(8);
+  if (sec_publisher_ == &_default_sec_publisher_) {
+    sec_publisher_ = new ::std::string;
+  }
+  sec_publisher_->assign(value);
+}
+inline void Envelope::set_sec_publisher(const char* value) {
+  _set_bit(8);
+  if (sec_publisher_ == &_default_sec_publisher_) {
+    sec_publisher_ = new ::std::string;
+  }
+  sec_publisher_->assign(value);
+}
+inline void Envelope::set_sec_publisher(const char* value, size_t size) {
+  _set_bit(8);
+  if (sec_publisher_ == &_default_sec_publisher_) {
+    sec_publisher_ = new ::std::string;
+  }
+  sec_publisher_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* Envelope::mutable_sec_publisher() {
+  _set_bit(8);
+  if (sec_publisher_ == &_default_sec_publisher_) {
+    sec_publisher_ = new ::std::string;
+  }
+  return sec_publisher_;
 }
 
 // -------------------------------------------------------------------

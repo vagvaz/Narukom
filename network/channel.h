@@ -1,5 +1,5 @@
 
-class ChannelCommand;/*
+/*
     <one line to give the program's name and a brief idea of what it does.>
     Copyright (C) <year>  <name of author>
 
@@ -27,6 +27,7 @@ class ChannelCommand;/*
 #include "host.h"
 #include <string>
 #include <vector>
+#include "../narukom_messages/ChannelCommand.pb.h"
 
 class Channel : public Thread, public Publisher, public Subscriber
 {

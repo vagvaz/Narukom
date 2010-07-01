@@ -5,3 +5,9 @@ target_link_libraries(ping_local narukom )
 
 add_executable(synchro_test synchronization_test.cpp fast.cpp slow.cpp ratio.cpp sync.pb.cc)
 target_link_libraries( synchro_test narukom)
+
+add_executable(network_pinger ping_network.cpp pingpong.pb.cc pinger.cpp)
+target_link_libraries(network_pinger narukom)
+
+add_executable(network_ponger pong_network.cpp pingpong.pb.cc ponger.cpp)
+target_link_libraries(network_ponger narukom)

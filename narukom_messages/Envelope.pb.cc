@@ -29,7 +29,7 @@ void protobuf_AssignDesc_Envelope_2eproto() {
       "Envelope.proto");
   GOOGLE_CHECK(file != NULL);
   Envelope_descriptor_ = file->message_type(0);
-  static const int Envelope_offsets_[8] = {
+  static const int Envelope_offsets_[9] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Envelope, type_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Envelope, host_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Envelope, publisher_),
@@ -38,6 +38,7 @@ void protobuf_AssignDesc_Envelope_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Envelope, timeout_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Envelope, timestamp_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Envelope, serialized_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Envelope, sec_publisher_),
   };
   Envelope_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -100,13 +101,14 @@ void protobuf_AddDesc_Envelope_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\016Envelope.proto\"\301\001\n\010Envelope\022\025\n\004type\030\010 "
+    "\n\016Envelope.proto\"\332\001\n\010Envelope\022\025\n\004type\030\010 "
     "\002(\t:\007default\022\027\n\004host\030\001 \002(\t:\tlocalhost\022\023\n"
     "\tpublisher\030\002 \002(\t:\000\022\025\n\005topic\030\003 \002(\t:\006globa"
     "l\022\025\n\013destination\030\006 \002(\t:\000\022\022\n\007timeout\030\004 \002("
     "\005:\0010\022\023\n\ttimestamp\030\005 \002(\t:\000\022\031\n\nserialized\030"
-    "\007 \002(\010:\005false\"-\n\010RawBytes\022\023\n\013byte_stream\030"
-    "\001 \002(\014\022\014\n\004size\030\002 \001(\r", 259);
+    "\007 \002(\010:\005false\022\027\n\rsec_publisher\030\t \001(\t:\000\"-\n"
+    "\010RawBytes\022\023\n\013byte_stream\030\001 \002(\014\022\014\n\004size\030\002"
+    " \001(\r", 284);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Envelope.proto", &protobuf_RegisterTypes);
   Envelope::default_instance_ = new Envelope();
@@ -132,6 +134,7 @@ const ::std::string Envelope::_default_publisher_;
 const ::std::string Envelope::_default_topic_("global");
 const ::std::string Envelope::_default_destination_;
 const ::std::string Envelope::_default_timestamp_;
+const ::std::string Envelope::_default_sec_publisher_;
 #ifndef _MSC_VER
 const int Envelope::kTypeFieldNumber;
 const int Envelope::kHostFieldNumber;
@@ -141,6 +144,7 @@ const int Envelope::kDestinationFieldNumber;
 const int Envelope::kTimeoutFieldNumber;
 const int Envelope::kTimestampFieldNumber;
 const int Envelope::kSerializedFieldNumber;
+const int Envelope::kSecPublisherFieldNumber;
 #endif  // !_MSC_VER
 
 Envelope::Envelope()
@@ -167,6 +171,7 @@ void Envelope::SharedCtor() {
   timeout_ = 0;
   timestamp_ = const_cast< ::std::string*>(&_default_timestamp_);
   serialized_ = false;
+  sec_publisher_ = const_cast< ::std::string*>(&_default_sec_publisher_);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -192,6 +197,9 @@ void Envelope::SharedDtor() {
   }
   if (timestamp_ != &_default_timestamp_) {
     delete timestamp_;
+  }
+  if (sec_publisher_ != &_default_sec_publisher_) {
+    delete sec_publisher_;
   }
   if (this != default_instance_) {
   }
@@ -251,6 +259,13 @@ void Envelope::Clear() {
       }
     }
     serialized_ = false;
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (_has_bit(8)) {
+      if (sec_publisher_ != &_default_sec_publisher_) {
+        sec_publisher_->clear();
+      }
+    }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -391,6 +406,23 @@ bool Envelope::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(74)) goto parse_sec_publisher;
+        break;
+      }
+      
+      // optional string sec_publisher = 9 [default = ""];
+      case 9: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_sec_publisher:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_sec_publisher()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+            this->sec_publisher().data(), this->sec_publisher().length(),
+            ::google::protobuf::internal::WireFormat::PARSE);
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -477,6 +509,15 @@ void Envelope::SerializeWithCachedSizes(
       8, this->type(), output);
   }
   
+  // optional string sec_publisher = 9 [default = ""];
+  if (_has_bit(8)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->sec_publisher().data(), this->sec_publisher().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    ::google::protobuf::internal::WireFormatLite::WriteString(
+      9, this->sec_publisher(), output);
+  }
+  
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -555,6 +596,16 @@ void Envelope::SerializeWithCachedSizes(
         8, this->type(), target);
   }
   
+  // optional string sec_publisher = 9 [default = ""];
+  if (_has_bit(8)) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+      this->sec_publisher().data(), this->sec_publisher().length(),
+      ::google::protobuf::internal::WireFormat::SERIALIZE);
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        9, this->sec_publisher(), target);
+  }
+  
   if (!unknown_fields().empty()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
@@ -621,6 +672,15 @@ int Envelope::ByteSize() const {
     }
     
   }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    // optional string sec_publisher = 9 [default = ""];
+    if (has_sec_publisher()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->sec_publisher());
+    }
+    
+  }
   if (!unknown_fields().empty()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
@@ -672,6 +732,11 @@ void Envelope::MergeFrom(const Envelope& from) {
       set_serialized(from.serialized());
     }
   }
+  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (from._has_bit(8)) {
+      set_sec_publisher(from.sec_publisher());
+    }
+  }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
@@ -703,6 +768,7 @@ void Envelope::Swap(Envelope* other) {
     std::swap(timeout_, other->timeout_);
     std::swap(timestamp_, other->timestamp_);
     std::swap(serialized_, other->serialized_);
+    std::swap(sec_publisher_, other->sec_publisher_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

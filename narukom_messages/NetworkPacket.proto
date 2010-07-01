@@ -1,0 +1,19 @@
+import "Envelope.proto";
+
+message NetworkHeader
+{
+required uint32 message_num = 1 ;
+required uint32 packet_num = 2  [default = 1];
+required uint32 number_of_packets = 3 [default = 1];
+required string type = 4;
+required string publisher = 5;
+required string host = 6;
+required string topic = 7;
+required string timestamp = 8 [default = ""];
+required uint32 timeout = 9 [default = 1000];
+}
+
+message NetworkPacket{
+required NetworkHeader header = 1;
+required RawBytes byte_buffer =2;
+}

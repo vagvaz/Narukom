@@ -10,6 +10,11 @@ Narukom::Narukom()
   // mq->add_subscriber(udp_multi);
   //   mq->subscribe("global",udp_multi,2);
   mq->StartThread();
+	multicast_channel = new UdpNetworkChannel("CatalogComChannel","224.0.0.1",9000,500);
+	mq->add_publisher(multicast_channel);
+	mq->add_subscriber(multicast_channel);
+	mq->subscribe("motion",multicast_channel,ON_TOPIC);
+	multicast_channel->StartThread();
 
 }
 MessageQueue* Narukom::get_message_queue()

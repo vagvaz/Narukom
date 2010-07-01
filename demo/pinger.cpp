@@ -23,117 +23,112 @@
 #include <ctime>
 void Pinger::printGame(int other,int myside)
 {
-  //      "         []         "
-  cout << "--------------------" << endl;
-  if( other)
-  {
-    if(other != myside)
+    cout <<       "         Pinger         " << endl;
+    cout << "--------------------" << endl;
+    if ( other)
     {
-      cout << "|O       []          \n" <<    "|        []          " <<endl;
-      cout << "         []         |\n" <<    "         []         |"  << endl;}
+        if (other != myside)
+        {
+            cout << "|O       []          \n" <<    "|        []          " <<endl;
+            cout << "         []         |\n" <<    "         []         |"  << endl;
+        }
+        else
+        {
+            cout << "|        []        |\n" <<    "|        []          |" << endl;
+            cout << "O        []         \n" <<    "         []           "  << endl;
+        }
+    }
     else
     {
-      cout << "|        []        |\n" <<    "|        []          |" << endl;
-      cout << "O        []         \n" <<    "         []           "  << endl;
+        if (other == myside)
+        {
+            cout << "|        []        |\n" <<  "|        []        |" <<endl;
+            cout << "O        []        \n" <<   "         []         "  << endl;
+        }
+        else
+        {
+            cout << "         []         \n" <<    "         []          " << endl;
+            cout << "|O       []        |\n" <<    "|        []        |"  << endl;
+        }
+        cout << "--------------------" << endl;
     }
-  }
-  else
-  {
-    if(other == myside)
-    {
-      cout << "|        []        |\n" <<  "|        []        |" <<endl;
-      cout << "O        []        \n" <<   "         []         "  << endl;}
-    else
-    {
-      cout << "         []         \n" <<    "         []          " << endl;
-      cout << "|O       []        |\n" <<    "|        []        |"  << endl;
-    }
-  cout << "--------------------" << endl;
-  }
 
 }
 PingMessage* Pinger::play(PongMessage* msg)
 {
-  PingMessage* result = new  PingMessage;
-  srand(time(0));
-  int myside = rand() % 2;
-// 	std::cout << "msgside " << msg->side() << " myside " << myside << " " << msg<< endl;
-  if(myside ==msg->side())
-    result->set_successful(true);
-	else
-		result->set_successful(false);
-// 	cout << "successful " << result->successful() << endl;
-  result->set_topic("motion");
-  result->set_side(myside);
-	result->set_timeout(10);
-  printGame(msg->side(),myside);
- // cout << "return Successful  " << result->successful() <<" " <<  result->side() << "address: " << result << endl;
-  return result;
+    PingMessage* result = new  PingMessage;
+    srand(time(0));
+    int myside = rand() % 2;
+    if (myside ==msg->side())
+        result->set_successful(true);
+    else
+        result->set_successful(false);
+		printGame(msg->side(),myside);
+    return result;
 }
 
 void Pinger::start_service()
 {
-  PingMessage* result = new  PingMessage;
-  srand(time(0));
-  int myside = rand() % 2;
-  result->set_successful(false);
-  result->set_topic("motion");
-  result->set_side(myside);
-	//cout << "START_SERVICE  " << myside << std::endl;
-  publish(result);
-  
-  //return result;
+    PingMessage* result = new  PingMessage;
+    srand(time(0));
+
+    publish(result);
+    //return result;
 }
 int Pinger::Execute()
 {
-   cout << " Pinger---->Run " << Subscriber::getBuffer()->size() << endl;
-  
-  if(Subscriber::getBuffer()->size() > 0)
-    process_messages();
-  return 0;
+    if (Subscriber::getBuffer() != 0)
+        if (Subscriber::getBuffer()->size() > 0)
+            process_messages();
+
+    return 0;
 }
 
 void Pinger::process_messages()
 {
-  
-        MessageBuffer* sub_buf = Subscriber::getBuffer();
-    cout << "Pinger " << endl;
-    if(sub_buf == 0)
-      cout << "None Unprocessed Buffers" << endl;
+
+    MessageBuffer* sub_buf = Subscriber::getBuffer();
+    //cout << "Pinger " << endl;
+    if (sub_buf == 0)
+        cout << "None Unprocessed Buffers" << endl;
     Tuple*  cur = sub_buf->remove_head();
-  
-  
-    while(cur != 0 )
+
+
+    while (cur != 0 )
     {
-      if(cur->get_msg_data()->GetTypeName() ==  "PongMessage"  )
-      {
-	PongMessage* msg = (PongMessage*)cur->get_msg_data();
-	PingMessage* ping_msg = play(msg);
-	//cout << "Before publishe Successful  " << ping_msg->successful() <<" " <<  ping_msg->side() << "address: " << ping_msg << endl;
-	publish(ping_msg);
-      }
-      else
-      {
-	cout << "Unknown Message Type: " << cur->get_msg_data()->GetTypeName() << endl; 
-      }
-      delete cur;
-      cur = sub_buf->remove_head();
-      
+        if (cur->get_msg_data()->GetTypeName() ==  "PongMessage"  )
+        {
+            PongMessage* msg = (PongMessage*)cur->get_msg_data();
+            PingMessage* ping_msg = play(msg);
+            //cout << "Before publishe Successful  " << ping_msg->successful() <<" " <<  ping_msg->side() << "address: " << ping_msg << endl;
+            publish(ping_msg);
+        }
+        if(cur->get_msg_data()->GetTypeName() == "RawBytes")
+				{
+						PongMessage* msg = blk->extract_result_from_tuple<PongMessage>(*cur);
+						PingMessage* ping_msg = play(msg);
+            publish(ping_msg);
+				}
+        else
+        {
+            cout << "Unknown Message Type: " << cur->get_msg_data()->GetTypeName() << endl;
+        }
+        delete cur;
+        cur = sub_buf->remove_head();
+
     }
-//     sleep(1);
-        
-}
+} 
 
 void Pinger::publish ( google::protobuf::Message* msg )
 {
-  cout << "Successful  " << "address: " << endl;
-	static int delivered = 0;
+    static int delivered = 0;
     Publisher::publish ( msg,"motion");
-    if(++delivered == 5)
+    if (++delivered == 40)
     {
-      cout << "Stop Pinger" <<endl;
- 	Thread::StopThread();
+        cout << "Stop Pinger" <<endl;
+        StopThread();
+				cout << "After stop Thread" << endl;
     }
-		
+	delete msg;
 }
 

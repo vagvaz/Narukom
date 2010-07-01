@@ -1,3 +1,4 @@
+
 #ifndef _thread_h_
 #define _thread_h_ 1
 
@@ -9,12 +10,13 @@ class Thread{
 
     public:
 
-        Thread ( bool start = false ) : running(false) { 
-            if ( start )
-                StartThread(); 
+        Thread ( bool start = false ) : running(false) {
         }
 
-virtual ~Thread() { cout << "Deleting thread " << endl; }
+virtual ~Thread() {
+  StopThread();
+	JoinThread();
+	cout << "Deleting thread " << endl; }
 
         bool IsRunning() const { return running; }
 
@@ -29,6 +31,7 @@ virtual ~Thread() { cout << "Deleting thread " << endl; }
 
         virtual void KillThread() {
             StopThread(); //TODO
+						
         }
 
         void JoinThread() {
@@ -43,10 +46,10 @@ virtual ~Thread() { cout << "Deleting thread " << endl; }
         boost::thread bThread;
 
         void startHelper () {
-            while (running) 
+            while (running)
                 this->Execute();
         }
 
 };
 
-#endif // _thread_h_ 
+#endif // _thread_h_

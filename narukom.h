@@ -3,6 +3,7 @@
 
 #include "pub_sub/message_queue.h"
 #include <string>
+#include "network/udp_network_channel.h"
 /**
 Narukom Class is used to combine all the different pieces of Narukom's 
 framework such as message queue, catalog module
@@ -16,6 +17,7 @@ class Narukom{
   private:
    MessageQueue* mq;
     //Catalog* cat;
+		UdpNetworkChannel* multicast_channel;
 
 };
 

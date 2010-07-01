@@ -32,6 +32,7 @@ SET(NARUKOM_PUB_SUB_SRCS
  	${NarukomDir}/system/thread.h
  	${NarukomDir}/system/Mutex.h
  	${NarukomDir}/system/Mutex.cpp
+	${NarukomDir}/system/Thread.cpp
  )
 # 
 # SET(NARUKOM_SYSTEM_INCLUDE_DIR ${NarukomDir}/system/)
@@ -42,8 +43,8 @@ ${NarukomDir}/network/catalog.h
 ${NarukomDir}/network/catalog.cpp
 ${NarukomDir}/network/host.h
 ${NarukomDir}/network/host.cpp
-# 	${NarukomDir}/network/Nack.pb.h
-# 	${NarukomDir}/network/Nack.pb.cc
+# ${NarukomDir}/network/Nack.pb.h
+# ${NarukomDir}/network/Nack.pb.cc
 ${NarukomDir}/network/unicast_channel.h
 ${NarukomDir}/network/broadcast_channel.h
 ${NarukomDir}/network/unicast_channel.cpp
@@ -54,18 +55,25 @@ ${NarukomDir}/network/network_common.h
 ${NarukomDir}/network/udp_network_channel.h
 ${NarukomDir}/network/udp_network_channel.cpp
 ${NarukomDir}/network/udp_receiver.h
-#${NarukomDir}/network/udp_receiver.cpp
+${NarukomDir}/network/udp_receiver.cpp
 ${NarukomDir}/network/udp_sender.h
 ${NarukomDir}/network/udp_sender.cpp
-# 	${NarukomDir}/network/network_channel.h
-# 	${NarukomDir}/network/network_channel.cpp
-# 	${NarukomDir}/network/multicastsender_receiver.h
-# 	${NarukomDir}/network/network_message.h
-# 	${NarukomDir}/network/network_message.cpp
-# 	${NarukomDir}/network/network_message_buffer.h
-# 	${NarukomDir}/network/network_message_buffer.cpp
-#         ${NarukomDir}/network/network_packet.pb.h
-#         ${NarukomDir}/network/network_packet.pb.cc
+${NarukomDir}/network/tcp_network_channel.h
+${NarukomDir}/network/tcp_network_channel.cpp
+${NarukomDir}/network/tcp_receiver.h
+${NarukomDir}/network/tcp_receiver.cpp
+${NarukomDir}/network/tcp_sender.h
+${NarukomDir}/network/tcp_sender.cpp
+${NarukomDir}/network/connection.hpp
+${NarukomDir}/network/connection_manager.hpp
+${NarukomDir}/network/connection_manager.cpp
+${NarukomDir}/network/connection.cpp
+${NarukomDir}/network/network_message.h
+${NarukomDir}/network/network_message.cpp
+${NarukomDir}/network/network_message_buffer.h
+${NarukomDir}/network/network_message_buffer.cpp
+#${NarukomDir}/network/network_packet.pb.h
+#${NarukomDir}/network/network_packet.pb.cc
 # 	${NarukomDir}/network/udp_multicast_channel.cpp
 # 	${NarukomDir}/network/udp_multicast_channel.h
 #       

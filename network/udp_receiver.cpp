@@ -22,7 +22,7 @@ UdpReceiver::UdpReceiver(NetworkChannelReceiver<boost::asio::ip::udp>* owner,con
  }
  if(!socket_->is_open())
 	 socket_->open(endpoint_.protocol());
- socket_->bind(endpoint_);
+
  if(timer != 0)
 	 timer_=timer;
  else
@@ -89,11 +89,13 @@ void UdpReceiver::set_timer(boost::asio::deadline_timer* val)
 
 unsigned int UdpReceiver::sync_receive(char* data,unsigned sz, boost::asio::ip::udp::endpoint& sender_ , unsigned int timeout)
 {
+	clear(data_,MAX_PACKET_SIZE);
 	return socket_->receive_from(boost::asio::buffer(data,sz),sender_);
 }
 
 void UdpReceiver::async_receive(unsigned int timeout, boost::asio::ip::udp::endpoint* endpoint)
 {
+
 	timer_->cancel(); // cancel timer countdown
 	//asynchronous receive from socket
 	boost::asio::ip::udp::endpoint* sender;
@@ -112,6 +114,7 @@ void UdpReceiver::async_receive(unsigned int timeout, boost::asio::ip::udp::endp
 }
 void UdpReceiver::handle_receive_from(const boost::system::error_code& error, size_t bytes_recvd, const boost::asio::ip::udp::endpoint& endpoint )
 {
+	
 	if(!error)
 	{
 		if(owner != 0)
@@ -123,10 +126,17 @@ void UdpReceiver::handle_receive_from(const boost::system::error_code& error, si
 	{
 		std::cout << "There was an error in udp receiver:\n" << error.message() << std::endl;
 	}
+	clear(data_,MAX_PACKET_SIZE);
 }
+void UdpReceiver::clear(char* bytes, unsigned sz)
+{
+	for(unsigned int i =0; i< sz;i++)
+		bytes[i] =0;
 
+}
 void UdpReceiver::handle_timeout(const boost::system::error_code& error )
 {
+	clear(data_,MAX_PACKET_SIZE);
 	if(!error && owner != 0)
 		owner->notify_receive_timeout();
 	else

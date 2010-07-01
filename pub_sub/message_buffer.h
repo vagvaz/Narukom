@@ -31,34 +31,36 @@
 class MessageBuffer
 {
   public:
-    MessageBuffer(boost::condition_variable* cv = 0);
+    MessageBuffer(Mutex* mx = 0,boost::condition_variable_any* cv = 0);
     explicit
-    MessageBuffer(const std::string owner,boost::condition_variable* cv );
-    MessageBuffer(const MessageBuffer&);
+    MessageBuffer(const std::string owner,Mutex* mx,boost::condition_variable_any* cv );
+    MessageBuffer(MessageBuffer&);
     ~MessageBuffer();
-    int size() const;//{ return msg_buf->size();}
-    bool isEmpty() const ;//{ return !(msg_buf->size() > 0);}
+    int size() ;//{ return msg_buf->size();}
+    bool isEmpty()  ;//{ return !(msg_buf->size() > 0);}
     void clear();//{ msg_buf->clear();}
-    void copyFrom(const MessageBuffer&);
-    void mergeFrom(const MessageBuffer&);
+    void copyFrom( MessageBuffer&);
+    void mergeFrom( MessageBuffer&);
     void add(Tuple* msg);
-    bool operator==(const MessageBuffer& other) const;
+    bool operator==( MessageBuffer& other) ;
     Tuple* remove( std::vector< Tuple* >::iterator );
     Tuple* remove_head();
     Tuple* remove_tail();
-    std::vector< Tuple* >::iterator get_iterator();
-    std::vector< Tuple* >::iterator end();
-    std::vector<Tuple*>&   getBuffer() const;//   {return *msg_buf;}
-    std::string getOwner() const;// {return owner;}
-    boost::condition_variable* get_condition_variable() const;
+    std::list< Tuple* >::iterator get_iterator();
+    std::list< Tuple* >::iterator end();
+    std::list<Tuple*>&   getBuffer() ;//   {return *msg_buf;}
+    std::string getOwner() ;// {return owner;}
+    boost::condition_variable_any* get_condition_variable() ;
+		Mutex* get_queue_mutex() ;
     void add_filter(Filter* filter);
-    void remove_filter(const Filter& filter);
+    void remove_filter(Filter* filter);
   private:
-    std::vector<Tuple*>* msg_buf;
+    std::list<Tuple*>* msg_buf;
     std::list<Filter*> filters;
     std::string owner; 
     Mutex mutex;
-    boost::condition_variable* mq_cv;
+		Mutex *mq_mutex;
+    boost::condition_variable_any* mq_cv;
   
 };
 

@@ -25,19 +25,22 @@
 #include "pub_sub/subscriber.h"
 #include "pub_sub/publisher.h"
 #include "pingpong.pb.h"
+#include "../pub_sub/blackboard.h"
 
 class Ponger : public Thread, public Subscriber, public Publisher
 {
   public:
     Ponger ( bool running = false ) : Thread(running),Subscriber("ponger"), Publisher("ponger")     
     {
-
+			blk = new Blackboard("ponger");
+			
     }
     PongMessage* play(PingMessage*);
     void printGame(int,int);
     virtual int Execute();
     virtual void process_messages();
     virtual void publish ( google::protobuf::Message* msg );
+		Blackboard* blk;
 };
 
 #endif // PONGER_H

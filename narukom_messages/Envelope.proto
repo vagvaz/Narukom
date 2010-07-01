@@ -10,6 +10,7 @@ message Envelope{
 	required int32  timeout     = 4 [ default = 0];
 	required string timestamp   = 5 [ default = ""];
 	required bool   serialized  = 7 [ default = false];
+        optional string sec_publisher = 9 [default = ""];
 }
 message RawBytes{
  required  bytes byte_stream = 1;

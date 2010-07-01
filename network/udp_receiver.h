@@ -46,9 +46,10 @@ public:
 	void set_owner(NetworkChannelReceiver<boost::asio::ip::udp>* val);
 	
 	unsigned sync_receive(char* data,unsigned sz ,boost::asio::ip::udp::endpoint&, unsigned timeout);
-	void async_receive(unsigned timeout =0);
+	void async_receive(unsigned timeout =0, boost::asio::ip::udp::endpoint* endpoint = 0);
 	
 private:
+	void clear(char* bytes, unsigned sz);
 	void handle_receive_from(const boost::system::error_code& error, size_t bytes_recvd, const boost::asio::ip::udp::endpoint& endpoint);
 	void handle_timeout(const boost::system::error_code& error);
   boost::asio::ip::udp::endpoint endpoint_;
